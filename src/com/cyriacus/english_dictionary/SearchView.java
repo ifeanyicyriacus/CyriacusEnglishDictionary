@@ -50,10 +50,10 @@ public class SearchView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaSearch = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
+        lblHistory = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        lblSettings = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,21 +83,31 @@ public class SearchView extends javax.swing.JFrame {
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel2.setText("Home");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblHome.setText("Home");
+        lblHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblHome.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                lblHomeMouseClicked(evt);
             }
         });
 
-        jLabel3.setText("History");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblHistory.setText("History");
+        lblHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHistoryMouseClicked(evt);
+            }
+        });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel1.setText("Settings");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSettings.setText("Settings");
+        lblSettings.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSettings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSettingsMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
         searchPanel.setLayout(searchPanelLayout);
@@ -116,15 +126,15 @@ public class SearchView extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
+                        .addComponent(lblHome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
+                        .addComponent(lblHistory)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)))
+                        .addComponent(lblSettings)))
                 .addContainerGap())
         );
         searchPanelLayout.setVerticalGroup(
@@ -141,9 +151,9 @@ public class SearchView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel3))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSettings)
+                        .addComponent(lblHistory))
+                    .addComponent(lblHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator2)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0))
@@ -224,9 +234,23 @@ public class SearchView extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2MouseClicked
+        this.setVisible(false);
+        new Index().setVisible(true);
+    }//GEN-LAST:event_lblHomeMouseClicked
+
+    private void lblHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHistoryMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new History().setVisible(true);
+    }//GEN-LAST:event_lblHistoryMouseClicked
+
+    private void lblSettingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSettingsMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Settings().setVisible(true);
+    }//GEN-LAST:event_lblSettingsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -266,12 +290,12 @@ public class SearchView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LblError;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblHistory;
+    private javax.swing.JLabel lblHome;
+    private javax.swing.JLabel lblSettings;
     private javax.swing.JPanel searchPanel;
     private javax.swing.JTextArea txtAreaSearch;
     private javax.swing.JTextField txtSearch;

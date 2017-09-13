@@ -82,9 +82,19 @@ public class Settings extends javax.swing.JFrame {
 
         lblSearch.setText("Search");
         lblSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSearchMouseClicked(evt);
+            }
+        });
 
         lblHistory.setText("History");
         lblHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHistoryMouseClicked(evt);
+            }
+        });
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -208,6 +218,18 @@ public class Settings extends javax.swing.JFrame {
         new Index().setVisible(true);
         
     }//GEN-LAST:event_lblHomeMouseClicked
+
+    private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new SearchView().setVisible(true);
+    }//GEN-LAST:event_lblSearchMouseClicked
+
+    private void lblHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHistoryMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new History().setVisible(true);
+    }//GEN-LAST:event_lblHistoryMouseClicked
 
     /**
      * @param args the command line arguments
