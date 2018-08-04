@@ -8,3 +8,5 @@ the dictionary has about 176023 records.
 
 my thought for upcoming version will include more tables, fields and functionalities like {examples, synonyms ,etc..), also i will greatly enjoy your collaboration if you wish to. <br>
 Thanks
+
+if you know your way around the wordnet open source dictionary pls, say hello!
