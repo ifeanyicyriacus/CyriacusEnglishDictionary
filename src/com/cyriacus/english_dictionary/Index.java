@@ -5,6 +5,16 @@
  */
 package com.cyriacus.english_dictionary;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ifeanyi
@@ -14,8 +24,23 @@ public class Index extends javax.swing.JFrame {
     /**
      * Creates new form Index
      */
+    private PreparedStatement clok, clok2;
+    private Connection conn = null;
+    private PreparedStatement pt = null;
+    private ResultSet rs = null;
+
+    
+    String source ;
+
     public Index() {
         initComponents();
+        try {
+//            connection environment variable
+            this.conn = new Env().getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -85,13 +110,13 @@ public class Index extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(0, 42, Short.MAX_VALUE)
                         .addComponent(lblTodayWord)
-                        .addGap(50, 50, 50)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addComponent(lblRandomWord)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lblSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap(48, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,22 +147,15 @@ public class Index extends javax.swing.JFrame {
         homePanelLayout.setHorizontalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homePanelLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(lblHead, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-                .addGap(50, 50, 50))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(homePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(homePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblAbout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblSettings)
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(homePanelLayout.createSequentialGroup()
+                        .addComponent(lblAbout)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSettings))
+                    .addComponent(lblHead, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         homePanelLayout.setVerticalGroup(
@@ -180,24 +198,65 @@ public class Index extends javax.swing.JFrame {
         this.setVisible(false);
         new SearchView().setVisible(true);
     }//GEN-LAST:event_lblSearchMouseClicked
-
     private void lblTodayWordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTodayWordMouseClicked
         // TODO add your handling code here:
+        
         this.setVisible(false);
-        SearchView searchView = new SearchView();
-        //enter code to pick random word from database and save it to a variable till midnight
-        //then send the word to SearchView
-        //and initiaze the search button or send the result to the txtfield label
+        int id;
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate localDate = LocalDate.now();
+
+        int timeClock = Integer.parseInt(dtf.format(localDate));//current date in yyyyMMdd format
+
+        //this will get me the time in database table roll 1
+        int lastTimeClock = 0,word_id = 0;
+        try {
+            String queryRow1 = "SELECT * FROM clock WHERE (id = 1 )";
+            clok2 = conn.prepareStatement(queryRow1);
+            rs = clok2.executeQuery();
+            rs.next();
+            lastTimeClock = rs.getInt("yyyyMMdd");
+            word_id = rs.getInt("word_id");
+//            JOptionPane.showMessageDialog(rootPane, lastTimeClock);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (timeClock != lastTimeClock) {
+            Random randomNumbers = new Random();
+            id = 1 + randomNumbers.nextInt(176023);
+
+            try {
+
+                String queryUpdate = "UPDATE clock SET id = 1, word_id = (?), yyyyMMdd = (?) WHERE id = 1";
+                clok = conn.prepareStatement(queryUpdate);
+                clok.setInt(1, id);
+                clok.setInt(2, timeClock);
+                clok.execute();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            id = word_id;
+        }
+            
+        source = "wordOfTheDay";
+        SearchView searchView = new SearchView(id,source);
         searchView.setVisible(true);
+
     }//GEN-LAST:event_lblTodayWordMouseClicked
 
     private void lblRandomWordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRandomWordMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
-        SearchView searchView = new SearchView();
-        //enter code to pick random word from database at every click instance
-        //then send the word to SearchView
-        //and initiaze the search button or send the result to the txtfield label
+
+        Random randomNumbers = new Random();
+        int id = 1 + randomNumbers.nextInt(176023);
+        source = "random";
+        SearchView searchView = new SearchView(id,source);
         searchView.setVisible(true);
     }//GEN-LAST:event_lblRandomWordMouseClicked
 
